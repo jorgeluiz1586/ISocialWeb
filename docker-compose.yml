@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+  isocial_web_dev:
+    container_name: isocial_web_dev
+    image: isocial-web-dev:1.0.0
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./.env
+    restart: unless-stopped
+    working_dir: /usr/src/app
+    ports:
+      - ${APP_PORT}:3000
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    command: >
+      bash -c "
+        yarn
+        yarn dev --host --port 3000
+      "
+    networks:
+      - isocial-network
+    
+
+  isocial_web_prod:
+    container_name: isocial_web_prod
+    image: isocial-web-prod:1.0.0
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./.env
+    restart: unless-stopped
+    working_dir: /usr/src/app
+    ports:
+      - ${APP_PORT}:3000
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    command: >
+      bash -c "
+        yarn
+        yarn dev --host --port 3000
+      "
+    networks:
+      - isocial-network
+
+networks:
+  isocial-network:
+    external: true
