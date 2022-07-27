@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "run:development": "docker network create isocial-network -d bridge && docker-compose up -d --build isocial_web_dev",
     "dev": "vite server ./public",
     "build": "tsc && vite build",
     "preview": "vite preview"
